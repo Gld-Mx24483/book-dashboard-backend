@@ -17,7 +17,6 @@ export class UserService {
     name?: string, 
     picture?: string
   ): Promise<User> {
-    // Try to find existing user
     let user = await this.userRepository.findOne({ 
       where: [
         { auth0Id },
@@ -32,7 +31,7 @@ export class UserService {
         email,
         name,
         picture,
-        roles: ['user'] // Default role
+        roles: ['admin'] // Default role
       });
       await this.userRepository.save(user);
     }
