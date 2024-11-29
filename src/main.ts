@@ -1,7 +1,6 @@
-//main.ts
+// main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
@@ -12,18 +11,15 @@ async function bootstrap() {
 
   // CORS Configuration
   app.enableCors({
-    origin: 'http://localhost:3000', 
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: [
-      'Content-Type', 
-      'Authorization', 
-      'Accept', 
-      'Origin', 
-      'X-Requested-With'
-    ],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
     credentials: true,
   });
 
   await app.listen(9000);
+
+  // Print the URL to the console
+  console.log(`Server running at http://localhost:9000`);
 }
 bootstrap();
