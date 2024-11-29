@@ -22,77 +22,133 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# Book Dashboard Backend
+This is the backend for the Book Dashboard project, built with NestJS and written in TypeScript. It provides a GraphQL API for managing books with authentication via JWT. It uses SQLite as the database and implements various modules to support book management, authentication, and user management.
 
-## Project setup
+Deployed URL: https://book-dashboard-backend.onrender.com
 
-```bash
-$ npm install
-```
+Deployment Platform: Render
 
-## Compile and run the project
+## Setup
+Clone the repository:
 
-```bash
-# development
-$ npm run start
+`git clone https://github.com/your-repository/book-dashboard-backend.git`
 
-# watch mode
-$ npm run start:dev
+`cd book-dashboard-backend`
 
-# production mode
-$ npm run start:prod
-```
+## Install dependencies:
 
-## Run tests
+### `npm install`
+Set up environment variables (e.g., .env):
 
-```bash
-# unit tests
-$ npm run test
+`AUTH0_DOMAIN=your-auth0-domain`
 
-# e2e tests
-$ npm run test:e2e
+`AUTH0_AUDIENCE=your-auth0-audience`
 
-# test coverage
-$ npm run test:cov
-```
+## Start the application in development mode:
 
-## Deployment
+### `npm run start:dev`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Important Modules
+### AuthModule (`src/auth/auth.module.ts`)
+Purpose: Handles JWT authentication and integrates with the UserModule for user management.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Key components:
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+PassportModule: Handles authentication logic.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+JwtStrategy: Validates JWT tokens using passport-jwt.
 
-## Resources
+JwtAuthGuard: Protects routes by enforcing JWT validation.
 
-Check out a few resources that may come in handy when working with NestJS:
+### JwtAuthGuard (`src/auth/jwt-auth.guard.ts`)
+Purpose: Protects routes from unauthorized access by checking if the JWT token is valid.
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Key components:
 
-## Support
+AuthGuard('jwt'): Uses Passport’s JWT strategy to validate tokens.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+getRequest(): Customizes the request extraction to work with GraphQL.
 
-## Stay in touch
+handleRequest(): Throws an error if the user is unauthorized.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### JwtStrategy (`src/auth/jwt.strategy.ts`)
+
+Purpose: Validates the JWT and retrieves user information from the payload.
+
+Key components:
+
+passportJwtSecret: Loads the JWT secret from Auth0's JWKS URI.
+
+validate(): Retrieves user details (like email, name, picture) from the JWT payload and checks if the user exists in the database.
+
+### Book Module (`src/book/book.module.ts`)
+
+Purpose: Manages CRUD operations for books in the database.
+
+Key components:
+
+BookService: Handles business logic for book operations.
+
+BookResolver: Exposes GraphQL queries and mutations for books.
+
+Book: The entity representing the book in the database.
+
+
+### User Module (`src/user/user.module.ts`)
+
+Purpose: Manages user-related data and authentication with Auth0.
+
+Key components:
+
+UserService: Provides methods to create and find users by Auth0 ID.
+
+User: Represents the user entity in the database, including Auth0 details like auth0Id, email, and roles.
+
+##Running Tests
+
+To run all tests:
+### `npm run test`
+
+To run tests in watch mode:
+### `npm run test:watch`
+
+To check test coverage:
+### `npm run test:cov`
+
+## Dependencies
+The following dependencies are used in this project:
+
+NestJS: A framework for building efficient, scalable Node.js server-side applications.
+
+@nestjs/common, @nestjs/core, @nestjs/platform-express
+
+@nestjs/apollo, @nestjs/graphql for GraphQL support
+
+@nestjs/jwt, @nestjs/passport for JWT authentication
+
+@nestjs/typeorm for database integration using TypeORM with SQLite
+
+Passport and JWT: For handling authentication and validation of user credentials.
+
+passport, passport-jwt, jwks-rsa
+
+GraphQL: For building the GraphQL API.
+
+graphql, apollo-server-express
+
+TypeORM: For ORM functionality to interact with the SQLite database.
+
+typeorm, sqlite3
+Validation: Ensures proper input validation using class-validator and class-transformer.
+
+## Notes
+Ensure Auth0 credentials (AUTH0_DOMAIN, AUTH0_AUDIENCE) are set up correctly in the `.env` file for the JWT strategy to work.
+
+The `JwtAuthGuard` is used to protect `GraphQL` queries and mutations by requiring a valid `JWT token`.
+
+The `BookService` handles all CRUD operations on books, while the `BookResolver` exposes these functionalities via `GraphQL API`.
 
 ## License
 
