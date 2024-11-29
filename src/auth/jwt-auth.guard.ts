@@ -12,7 +12,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
 
   handleRequest(err: any, user: any) {
     if (err || !user) {
-      throw err || new UnauthorizedException('Please log in to access this resource');
+      throw err || new UnauthorizedException('Please log in to access dashboard');
     }
     return user;
   }

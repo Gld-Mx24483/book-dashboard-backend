@@ -31,7 +31,7 @@ export class BookService {
   }
 
   async update(id: number, updateBookInput: UpdateBookInput): Promise<Book> {
-    await this.findOne(id); // Validate book exists
+    await this.findOne(id); 
     await this.bookRepository.update(id, updateBookInput);
     return this.findOne(id);
   }
