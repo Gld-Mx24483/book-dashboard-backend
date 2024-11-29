@@ -7,7 +7,7 @@
 // }
 // bootstrap();
 
-
+//main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -19,6 +19,20 @@ async function bootstrap() {
   // Validation
   app.useGlobalPipes(new ValidationPipe());
 
+  // CORS Configuration
+  app.enableCors({
+    origin: 'http://localhost:3000', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type', 
+      'Authorization', 
+      'Accept', 
+      'Origin', 
+      'X-Requested-With'
+    ],
+    credentials: true,
+  });
+
   // Swagger
   const config = new DocumentBuilder()
     .setTitle('Book Dashboard API')
@@ -28,6 +42,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(9000);
 }
 bootstrap();
