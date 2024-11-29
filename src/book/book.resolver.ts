@@ -1,4 +1,4 @@
-//book.resolver.ts
+//src/book/book.resolver.ts
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { BookService } from './book.service';
 import { Book } from './book.entity';

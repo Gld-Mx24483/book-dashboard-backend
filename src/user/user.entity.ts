@@ -1,4 +1,4 @@
-//user.entity.ts
+//src/user/user.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 
